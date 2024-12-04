@@ -6,9 +6,9 @@ sudo apt update && sudo apt upgrade -y
 
 # Desktop directory
 if [ ! -d "$HOME/Desktop" ]; then
-    DESKTOP_DIR="$HOME/Desktop"
-else
     DESKTOP_DIR="$HOME/Bureau"
+else
+    DESKTOP_DIR="$HOME/Desktop"
 fi
 
 
