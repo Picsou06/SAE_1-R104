@@ -5,7 +5,12 @@ echo "Updating and upgrading the system..."
 sudo apt update && sudo apt upgrade -y
 
 # Desktop directory
-DESKTOP_DIR="$HOME/Desktop"
+if [ ! -d "$HOME/Desktop" ]; then
+    DESKTOP_DIR="$HOME/Desktop"
+else
+    DESKTOP_DIR="$HOME/Bureau"
+fi
+
 
 # Anaconda installation
 echo "Downloading Anaconda..."
@@ -15,6 +20,7 @@ echo "Starting Anaconda installation..."
 # Instructions for user
 echo ">>> Anaconda installation requires user interaction. <<<"
 echo "1. Press Enter to review the license agreement."
+echo "1.2 Press Enter to read or 'q' to quit."
 echo "2. Type 'y' to agree to the license agreement."
 echo "3. Press Enter to accept the default installation path."
 echo "4. Type 'yes' to initialize Anaconda."
