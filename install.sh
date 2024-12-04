@@ -11,7 +11,6 @@ DESKTOP_DIR="$HOME/Desktop"
 echo "Downloading Anaconda..."
 wget https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh -O ~/Anaconda3.sh
 echo "Starting Anaconda installation..."
-bash ~/Anaconda3.sh
 
 # Instructions for user
 echo ">>> Anaconda installation requires user interaction. <<<"
@@ -21,6 +20,7 @@ echo "3. Press Enter to accept the default installation path."
 echo "4. Type 'yes' to initialize Anaconda."
 echo "Restart this script after completing the manual installation if necessary."
 read -p "Press any key to continue once the installation is complete."
+bash ~/Anaconda3.sh
 
 # Create Anaconda shortcut
 echo "Creating Anaconda shortcut..."
