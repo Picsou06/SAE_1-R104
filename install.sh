@@ -125,7 +125,7 @@ cat <<EOF > "$DESKTOP_DIR/AstroImageJ.desktop"
 Name=AstroImageJ
 Comment=Image processing software for astronomy
 Exec=$HOME/AstroImageJ/AstroImageJ
-Icon=application-default-icon
+Icon=/home/$USER/AstroImageJ/astronomy_icon.png
 Terminal=false
 Type=Application
 EOF
