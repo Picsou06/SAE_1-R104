@@ -28,14 +28,21 @@ echo "Restart this script after completing the manual installation if necessary.
 read -p "Press any key to continue once the installation is complete."
 bash ~/Anaconda3.sh
 
+# Add anaconda to the base path
+echo "Adding Anaconda to PATH..."
+echo "export PATH=\$HOME/anaconda3/bin:\$PATH" >> ~/.bashrc
+
+# Source .bashrc to apply changes
+source ~/.bashrc
+
 # Create Anaconda shortcut
-echo "Creating Anaconda shortcut..."
+echo "Creating Anaconda shortcut with terminal..."
 cat <<EOF > "$DESKTOP_DIR/Anaconda.desktop"
 [Desktop Entry]
 Name=Anaconda
 Comment=Launch Anaconda Navigator
-Exec=$HOME/anaconda3/bin/anaconda-navigator
-Icon=$HOME/anaconda3/pkgs/anaconda-project-*/info/media/anaconda-project-icon-256x256.png
+Exec=gnome-terminal -- bash -c "source $HOME/.bashrc; conda activate base; anaconda-navigator; exec bash"
+Icon=$HOME/anaconda3/lib/python3.12/site-packages/anaconda_navigator/static/images/common/anaconda-icon-256x256.png
 Terminal=false
 Type=Application
 EOF
@@ -85,8 +92,8 @@ cat <<EOF > "$DESKTOP_DIR/Aladin.desktop"
 [Desktop Entry]
 Name=Aladin
 Comment=Interactive sky atlas
-Exec=/usr/bin/aladin
-Icon=application-default-icon
+Exec=/usr/bin/aladin %F
+Icon=aladin
 Terminal=false
 Type=Application
 EOF
@@ -105,8 +112,8 @@ cat <<EOF > "$DESKTOP_DIR/AstroDMX.desktop"
 [Desktop Entry]
 Name=AstroDMX
 Comment=Astronomical camera software
-Exec=/usr/bin/astrodmx-capture
-Icon=application-default-icon
+Exec=/opt/AstroDMx-Capture/bin/AstroDMx-Capture
+Icon=/usr/share/astrodmx_capture/astrodmx.png
 Terminal=false
 Type=Application
 EOF
@@ -159,8 +166,8 @@ cat <<EOF > "$DESKTOP_DIR/ASTAP.desktop"
 [Desktop Entry]
 Name=ASTAP
 Comment=Astrometric software
-Exec=/usr/bin/astap
-Icon=application-default-icon
+Exec=/opt/astap/astap
+Icon=/opt/astap/astap.ico
 Terminal=false
 Type=Application
 EOF
