@@ -157,8 +157,7 @@ chmod +x "$DESKTOP_DIR/Octave.desktop"
 
 # ASTAP installation
 echo "Installing ASTAP..."
-sudo wget https://sourceforge.net/projects/astap-program/files/linux_installer/astap_i386.deb/download -O /tmp/astap.deb
-sudo dpkg -i /tmp/astap.deb
+sudo apt install astap -y
 
 # Create ASTAP shortcut
 echo "Creating ASTAP shortcut..."
