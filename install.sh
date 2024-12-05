@@ -69,7 +69,7 @@ cat <<EOF > "$DESKTOP_DIR/Topcat.desktop"
 Name=Topcat
 Comment=Table operations and plotting
 Exec=/usr/bin/topcat
-Icon=application-default-icon
+Icon=/usr/share/pixmaps/topcat.png
 Terminal=false
 Type=Application
 EOF
