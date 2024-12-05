@@ -162,6 +162,13 @@ sudo apt install astap -y
 # Icon directory
 ICON_DIR="$HOME/.local/share/icons"
 mkdir -p "$ICON_DIR"
+# ASTAP installation
+echo "Installing ASTAP..."
+sudo apt install astap -y
+
+# Icon directory
+ICON_DIR="$HOME/.local/share/icons"
+mkdir -p "$ICON_DIR"
 
 # Download ASTAP icon
 echo "Downloading ASTAP icon..."
