@@ -1,43 +1,35 @@
 #!/bin/bash
 
+set -e
+
+# Variables
+ICON_DIR="$HOME/.local/share/icons"
+APPLICATION_DIR="$HOME/.local/share/applications"
+
 # Update and upgrade the system
 echo "Updating and upgrading the system..."
 sudo apt update && sudo apt upgrade -y
-
-# Desktop directory
-if [ ! -d "$HOME/Desktop" ]; then
-    DESKTOP_DIR="$HOME/Bureau"
-else
-    DESKTOP_DIR="$HOME/Desktop"
-fi
-
 
 # Anaconda installation
 echo "Downloading Anaconda..."
 wget https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh -O ~/Anaconda3.sh
 echo "Starting Anaconda installation..."
+bash ~/Anaconda3.sh -b -p "$HOME/anaconda3"
+rm ~/Anaconda3.sh
 
-# Instructions for user
-echo ">>> Anaconda installation requires user interaction. <<<"
-echo "1. Press Enter to review the license agreement."
-echo "1.2 Press Enter to read or 'q' to quit."
-echo "2. Type 'y' to agree to the license agreement."
-echo "3. Press Enter to accept the default installation path."
-echo "4. Type 'yes' to initialize Anaconda."
-echo "Restart this script after completing the manual installation if necessary."
-read -p "Press any key to continue once the installation is complete."
-bash ~/Anaconda3.sh
+# Add Anaconda to PATH if not already added
+if ! grep -q "anaconda3/bin" ~/.bashrc; then
+  echo "Adding Anaconda to PATH..."
+  echo 'export PATH="$HOME/anaconda3/bin:$PATH"' >> ~/.bashrc
+fi
 
-# Add anaconda to the base path
-echo "Adding Anaconda to PATH..."
-echo "export PATH=\$HOME/anaconda3/bin:\$PATH" >> ~/.bashrc
-
-# Source .bashrc to apply changes
+# Apply changes
 source ~/.bashrc
 
 # Create Anaconda shortcut
-echo "Creating Anaconda shortcut with terminal..."
-cat <<EOF > "$DESKTOP_DIR/Anaconda.desktop"
+echo "Creating Anaconda shortcut..."
+mkdir -p "$APPLICATION_DIR"
+cat <<EOF > "$APPLICATION_DIR/Anaconda.desktop"
 [Desktop Entry]
 Name=Anaconda
 Comment=Launch Anaconda Navigator
@@ -46,15 +38,14 @@ Icon=$HOME/anaconda3/lib/python3.12/site-packages/anaconda_navigator/static/imag
 Terminal=false
 Type=Application
 EOF
-chmod +x "$DESKTOP_DIR/Anaconda.desktop"
 
 # Stellarium installation
 echo "Installing Stellarium..."
 sudo apt install -y stellarium
 
-# Create Stellarium shortcut
+# Stellarium shortcut
 echo "Creating Stellarium shortcut..."
-cat <<EOF > "$DESKTOP_DIR/Stellarium.desktop"
+cat <<EOF > "$APPLICATION_DIR/Stellarium.desktop"
 [Desktop Entry]
 Name=Stellarium
 Comment=A planetarium software
@@ -63,122 +54,49 @@ Icon=stellarium
 Terminal=false
 Type=Application
 EOF
-chmod +x "$DESKTOP_DIR/Stellarium.desktop"
-
-# Topcat installation
-echo "Installing Topcat..."
-sudo apt-get install -y topcat
-
-# Create Topcat shortcut
-echo "Creating Topcat shortcut..."
-cat <<EOF > "$DESKTOP_DIR/Topcat.desktop"
-[Desktop Entry]
-Name=Topcat
-Comment=Table operations and plotting
-Exec=/usr/bin/topcat
-Icon=/usr/share/pixmaps/topcat.png
-Terminal=false
-Type=Application
-EOF
-chmod +x "$DESKTOP_DIR/Topcat.desktop"
-
-# Aladin installation
-echo "Installing Aladin..."
-sudo apt install -y aladin
-
-# Create Aladin shortcut
-echo "Creating Aladin shortcut..."
-cat <<EOF > "$DESKTOP_DIR/Aladin.desktop"
-[Desktop Entry]
-Name=Aladin
-Comment=Interactive sky atlas
-Exec=/usr/bin/aladin %F
-Icon=aladin
-Terminal=false
-Type=Application
-EOF
-chmod +x "$DESKTOP_DIR/Aladin.desktop"
 
 # AstroDMX installation
 echo "Installing AstroDMX..."
 sudo wget https://www.astrodmx-capture.org.uk/downloads/astrodmx/current/linux-x86_64/astrodmx-capture_2.10.1_amd64.deb -O /tmp/astrodmx-capture_amd64.deb
-sudo dpkg -i /tmp/astrodmx-capture_amd64.deb
-sudo apt-get install -f -y
-sudo rm /tmp/astrodmx-capture_amd64.deb
-
-# Create AstroDMX shortcut
-echo "Creating AstroDMX shortcut..."
-cat <<EOF > "$DESKTOP_DIR/AstroDMX.desktop"
-[Desktop Entry]
-Name=AstroDMX
-Comment=Astronomical camera software
-Exec=/opt/AstroDMx-Capture/bin/AstroDMx-Capture
-Icon=/usr/share/astrodmx_capture/astrodmx.png
-Terminal=false
-Type=Application
-EOF
-chmod +x "$DESKTOP_DIR/AstroDMX.desktop"
+sudo dpkg -i /tmp/astrodmx-capture_amd64.deb || sudo apt-get install -f -y
+rm /tmp/astrodmx-capture_amd64.deb
 
 # AstroImageJ installation
 echo "Installing AstroImageJ..."
 sudo apt install -y openjdk-11-jdk
-sudo wget https://www.astro.louisville.edu/software/astroimagej/installation_packages/AstroImageJ_v5.3.3.00-linux-x86_64Bit.tar.gz -O /tmp/AIJ.tar.gz
+wget https://www.astro.louisville.edu/software/astroimagej/installation_packages/AstroImageJ_v5.3.3.00-linux-x86_64Bit.tar.gz -O /tmp/AIJ.tar.gz
 tar -xvzf /tmp/AIJ.tar.gz -C ~/
+rm /tmp/AIJ.tar.gz
 
-# Create AstroImageJ shortcut
+# AstroImageJ shortcut
 echo "Creating AstroImageJ shortcut..."
-cat <<EOF > "$DESKTOP_DIR/AstroImageJ.desktop"
+cat <<EOF > "$APPLICATION_DIR/AstroImageJ.desktop"
 [Desktop Entry]
 Name=AstroImageJ
 Comment=Image processing software for astronomy
 Exec=$HOME/AstroImageJ/AstroImageJ
-Icon=/home/$USER/AstroImageJ/astronomy_icon.png
+Icon=$HOME/AstroImageJ/astronomy_icon.png
 Terminal=false
 Type=Application
 EOF
-chmod +x "$DESKTOP_DIR/AstroImageJ.desktop"
 
 # Octave installation
 echo "Installing Octave..."
 sudo apt install -y octave
 
-# Create Octave shortcut
-echo "Creating Octave shortcut..."
-cat <<EOF > "$DESKTOP_DIR/Octave.desktop"
-[Desktop Entry]
-Name=Octave
-Comment=GNU Octave environment
-Exec=/usr/bin/octave
-Icon=octave
-Terminal=false
-Type=Application
-EOF
-chmod +x "$DESKTOP_DIR/Octave.desktop"
-
 # ASTAP installation
 echo "Installing ASTAP..."
-sudo apt install astap -y
-
-# Icon directory
-ICON_DIR="$HOME/.local/share/icons"
-mkdir -p "$ICON_DIR"
-# ASTAP installation
-echo "Installing ASTAP..."
-sudo apt install astap -y
-
-# Icon directory
-ICON_DIR="$HOME/.local/share/icons"
-mkdir -p "$ICON_DIR"
+sudo apt install -y astap
 
 # Download ASTAP icon
 echo "Downloading ASTAP icon..."
-ICON_URL="https://images.squarespace-cdn.com/content/v1/5a7a3c81f6576ee0160a135f/1dd24901-2837-457b-8912-87e2090268ca/ASTAP+-+Agua+Potable+-+Petr%C3%B3leo+-+Energ%C3%ADa+-+Ambiente+-+Industria..png"
+mkdir -p "$ICON_DIR"
 ICON_PATH="$ICON_DIR/astap.png"
-wget -O "$ICON_PATH" "$ICON_URL"
+wget -O "$ICON_PATH" "https://example.com/astap.png"
 
-# Create ASTAP shortcut
+# ASTAP shortcut
 echo "Creating ASTAP shortcut..."
-cat <<EOF > "$DESKTOP_DIR/ASTAP.desktop"
+cat <<EOF > "$APPLICATION_DIR/ASTAP.desktop"
 [Desktop Entry]
 Name=ASTAP
 Comment=Astrometric software
@@ -187,8 +105,5 @@ Icon=$ICON_PATH
 Terminal=false
 Type=Application
 EOF
-
-# Make the shortcut executable
-chmod +x "$DESKTOP_DIR/ASTAP.desktop"
 
 echo "All installations and shortcuts are complete."
