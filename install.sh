@@ -157,8 +157,17 @@ chmod +x "$DESKTOP_DIR/Octave.desktop"
 
 # ASTAP installation
 echo "Installing ASTAP..."
-sudo wget https://sourceforge.net/projects/astap-program/files/linux_installer/astap_i386.deb/download -O /tmp/astap.deb
-sudo dpkg -i /tmp/astap.deb
+sudo apt install astap -y
+
+# Icon directory
+ICON_DIR="$HOME/.local/share/icons"
+mkdir -p "$ICON_DIR"
+
+# Download ASTAP icon
+echo "Downloading ASTAP icon..."
+ICON_URL="https://images.squarespace-cdn.com/content/v1/5a7a3c81f6576ee0160a135f/1dd24901-2837-457b-8912-87e2090268ca/ASTAP+-+Agua+Potable+-+Petr%C3%B3leo+-+Energ%C3%ADa+-+Ambiente+-+Industria..png"
+ICON_PATH="$ICON_DIR/astap.png"
+wget -O "$ICON_PATH" "$ICON_URL"
 
 # Create ASTAP shortcut
 echo "Creating ASTAP shortcut..."
@@ -166,12 +175,13 @@ cat <<EOF > "$DESKTOP_DIR/ASTAP.desktop"
 [Desktop Entry]
 Name=ASTAP
 Comment=Astrometric software
-Exec=/opt/astap/astap
-Icon=/opt/astap/astap.ico
+Exec=/usr/bin/astap
+Icon=$ICON_PATH
 Terminal=false
 Type=Application
 EOF
+
+# Make the shortcut executable
 chmod +x "$DESKTOP_DIR/ASTAP.desktop"
-sudo rm -rf /tmp/astap.deb
 
 echo "All installations and shortcuts are complete."
