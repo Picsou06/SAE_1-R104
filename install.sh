@@ -10,6 +10,8 @@ APPLICATION_DIR="$HOME/.local/share/applications"
 echo "Updating and upgrading the system..."
 sudo apt update && sudo apt upgrade -y
 
+sudo apt install desktop-file-utils
+
 # Anaconda installation
 echo "Downloading Anaconda..."
 wget https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh -O ~/Anaconda3.sh
@@ -38,6 +40,7 @@ Icon=$HOME/anaconda3/lib/python3.12/site-packages/anaconda_navigator/static/imag
 Terminal=false
 Type=Application
 EOF
+cp "$APPLICATION_DIR/Anaconda.desktop" "$DESKTOP_DIR/"
 
 # Stellarium installation
 echo "Installing Stellarium..."
@@ -54,6 +57,7 @@ Icon=stellarium
 Terminal=false
 Type=Application
 EOF
+cp "$APPLICATION_DIR/Stellarium.desktop" "$DESKTOP_DIR/"
 
 # AstroDMX installation
 echo "Installing AstroDMX..."
@@ -79,6 +83,7 @@ Icon=$HOME/AstroImageJ/astronomy_icon.png
 Terminal=false
 Type=Application
 EOF
+cp "$APPLICATION_DIR/AstroImageJ.desktop" "$DESKTOP_DIR/"
 
 # Octave installation
 echo "Installing Octave..."
@@ -105,5 +110,6 @@ Icon=$ICON_PATH
 Terminal=false
 Type=Application
 EOF
+cp "$APPLICATION_DIR/ASTAP.desktop" "$DESKTOP_DIR/"
 
 echo "All installations and shortcuts are complete."
